@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GeoJSON Map</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+</head>
+<body>
+    <div id="map" style="width: 100%; height: 600px;"></div>
+
+    <script>
+        // Initialize the map and set its view
+        var map = L.map('map').setView([31.8996, 35.2042], 13); // Centered on Ramallah
+
+        // Add a tile layer to the map (OpenStreetMap tiles)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: 'Â© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Function to add GeoJSON data to the map
+        function addGeoJSONLayer(url, layerName) {
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    var geojsonLayer = L.geoJSON(data, {
+                        onEachFeature: function (feature, layer) {
+                            if (feature.properties) {
+                                layer.bindPopup(layerName + "<br>" + Object.keys(feature.properties).map(function (k) {
+                                    return k + ": " + feature.properties[k];
+                                }).join("<br />"), {maxHeight: 200});
+                            }
+                        }
+                    }).addTo(map);
+                })
+                .catch(err => console.error("Error loading " + layerName + ": ", err));
+        }
+
+        // Add each GeoJSON file
+        addGeoJSONLayer('New_Pharmcy.geojson', 'New Pharmacies');
+        addGeoJSONLayer('Old Pharmacies.geojson', 'Old Pharmacies');
+        addGeoJSONLayer('Ramallah Quarters.geojson', 'Ramallah Quarters');
+        addGeoJSONLayer('Ramallah_Buliding.geojson', 'Ramallah Buildings');
+        addGeoJSONLayer('Roads.geojson', 'Roads');
+    </script>
+</body>
+</html>

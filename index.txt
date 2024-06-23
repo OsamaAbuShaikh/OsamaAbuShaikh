@@ -1,0 +1,115 @@
+// STEP 1
+
+  <!-- Add a link to the jQuery JavaScript library so you can leverage ajax methods to load your data -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+
+
+// STEP 2
+
+// use jquery to load GeoJSON data
+
+    $.getJSON("New_Pharmcy.json", function(RZ) {
+      L.geoJson(NP).addTo(map);
+    });
+
+    $.getJSON("Old Pharmacies.json", function(WC) {
+      L.geoJson(OP).addTo(map);
+    });
+
+    $.getJSON("Ramallah Quarters.json", function(RZ) {
+      L.geoJson(RQ).addTo(map);
+    });
+
+    $.getJSON("Ramallah_Buliding.json", function(RZ) {
+      L.geoJson(RB).addTo(map);
+    });
+
+    $.getJSON("Roads.json", function(RZ) {
+      L.geoJson(R).addTo(map);
+    });
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GeoJSON Map</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        #map {
+            width: 100%;
+            height: 600px;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        var map = L.map('map').setView([31.9075, 35.2038], 13); // Center the map on Ramallah
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        var newPharmacyLayer = new L.GeoJSON.AJAX('New_Pharmcy.geojson').addTo(map);
+        var oldPharmacyLayer = new L.GeoJSON.AJAX('Old Pharmacies.geojson').addTo(map);
+        var ramallahQuartersLayer = new L.GeoJSON.AJAX('Ramallah Quarters.geojson').addTo(map);
+        var ramallahBuildingLayer = new L.GeoJSON.AJAX('Ramallah_Buliding.geojson').addTo(map);
+        var roadsLayer = new L.GeoJSON.AJAX('Roads.geojson').addTo(map);
+    </script>
+</body>
+</html>
+# Clone the repository
+git clone https://github.com/OsamaAbuShaikh/GeoJSON-Map.git
+cd GeoJSON-Map
+
+# Create the index.html file and GeoJSON files in the repository directory
+echo '<!DOCTYPE html>
+<html>
+<head>
+    <title>GeoJSON Map</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        #map {
+            width: 100%;
+            height: 600px;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        var map = L.map('map').setView([31.9075, 35.2038], 13); // Center the map on Ramallah
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        var newPharmacyLayer = new L.GeoJSON.AJAX("New_Pharmcy.geojson").addTo(map);
+        var oldPharmacyLayer = new L.GeoJSON.AJAX("Old Pharmacies.geojson").addTo(map);
+        var ramallahQuartersLayer = new L.GeoJSON.AJAX("Ramallah Quarters.geojson").addTo(map);
+        var ramallahBuildingLayer = new L.GeoJSON.AJAX("Ramallah_Buliding.geojson").addTo(map);
+        var roadsLayer = new L.GeoJSON.AJAX("Roads.geojson").addTo(map);
+    </script>
+</body>
+</html>' > index.html
+
+# Add the GeoJSON files (make sure these files are in the directory)
+cp /path/to/New_Pharmcy.geojson .
+cp /path/to/Old\ Pharmacies.geojson .
+cp /path/to/Ramallah\ Quarters.geojson .
+cp /path/to/Ramallah_Buliding.geojson .
+cp /path/to/Roads.geojson .
+
+# Add and commit the files
+git add .
+git commit -m "Initial commit with GeoJSON files and index.html"
+git push origin main
+

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GeoJSON Map</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-ajax/2.1.0/leaflet.ajax.min.js"></script>
+    <style>
+        #map {
+            width: 100%;
+            height: 600px;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script>
+        var map = L.map('map').setView([31.9075, 35.2038], 13); // Center the map on Ramallah
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        var newPharmacyLayer = new L.GeoJSON.AJAX('New_Pharmcy.geojson').addTo(map);
+        var oldPharmacyLayer = new L.GeoJSON.AJAX('Old Pharmacies.geojson').addTo(map);
+        var ramallahQuartersLayer = new L.GeoJSON.AJAX('Ramallah Quarters.geojson').addTo(map);
+        var ramallahBuildingLayer = new L.GeoJSON.AJAX('Ramallah_Buliding.geojson').addTo(map);
+        var roadsLayer = new L.GeoJSON.AJAX('Roads.geojson').addTo(map);
+    </script>
+</body>
+</html>
